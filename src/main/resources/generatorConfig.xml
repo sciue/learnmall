@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <properties resource="generator.properties"></properties>
+
+    <!--配置数据库信息 -->
+    <context id="MySqlContext" targetRuntime="MyBatis3" defaultModelType="flat">
+        <property name="beginningDelimiter" value=""/>
+        <property name="endingDelimiter" value=""/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 为模型生成序列化方法-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <!-- 为生成的Java模型创建一个toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
+        <!--可以自定义生成model的代码注释-->
+        <commentGenerator type="com.sciue.learnmall.mbg.CommentGenerator">
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+        
+        <!--配置数据库连接-->
+        <jdbcConnection driverClass="${jdbc.driverClass}"
+                        connectionURL="${jdbc.connectionURL}"
+                        userId="${jdbc.userId}"
+                        password="${jdbc.password}">
+            <!--解决mysql驱动升级到8.0后不生成指定数据库代码的问题-->
+            <property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!-- 指定javaBean的生成位置 -->
+        <javaModelGenerator targetPackage="com.sciue.learnmall.mbg.model"
+                            targetProject=".\src\main\java"></javaModelGenerator>
+        <!-- 指定sql映射文件生成位置 -->
+        <sqlMapGenerator targetPackage="com.sciue.learnmall.mbg.mapper"
+                         targetProject=".\src\main\java">
+        </sqlMapGenerator>
+        <!-- 指定dao接口的生成位置，mapper接口 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.sciue.learnmall.mbg.mapper"
+                             targetProject=".\src\main\java">
+
+        </javaClientGenerator>
+        <!-- 指定每个表的生成策略 -->
+        <table tableName="pms_brand">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"></generatedKey>
+        </table>
+    </context>
+</generatorConfiguration>
